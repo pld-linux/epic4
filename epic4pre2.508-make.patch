@@ -1,0 +1,87 @@
+diff -Nru epic4pre2.508.orig/Makefile.in epic4pre2.508/Makefile.in
+--- epic4pre2.508.orig/Makefile.in	Sat Apr 22 21:04:06 2000
++++ epic4pre2.508/Makefile.in	Sat Apr 22 21:05:34 2000
+@@ -73,7 +73,7 @@
+ 
+ epic        = @epic@
+ epic_exe    = $(bindir)/$(epic)
+-wserv_exe   = $(libexecdir)/wserv
++wserv_exe   = $(libexecdir)/wserv-epic4
+ epicdir     = $(sharedir)/$(epic)
+ 
+ ############ You ought not change anything below this line ###################
+@@ -125,7 +125,7 @@
+ 			$(MV) $(IP)$(EPIC_LINK) $(IP)$(EPIC_OLD); \
+ 		fi; \
+ 		$(RM) $(IP)$(EPIC_LINK); \
+-		ln -s $(IP)$(EPIC) $(IP)$(EPIC_LINK); \
++		mv -f $(IP)$(EPIC) $(IP)$(EPIC_LINK); \
+ 	fi
+ 
+ #
+diff -Nru epic4pre2.508.orig/include/config.h epic4pre2.508/include/config.h
+--- epic4pre2.508.orig/include/config.h	Sat Apr 22 21:04:06 2000
++++ epic4pre2.508/include/config.h	Sat Apr 22 21:08:29 2000
+@@ -42,7 +42,7 @@
+  *  the client will NOT compile and work properly!  Use the default here if
+  *  you dont have other servers to use.
+  */
+-#define DEFAULT_SERVER "localhost irc.efnet.net irc.undernet.org irc.dal.net"
++#define DEFAULT_SERVER "poznan.irc.pl krakow.irc.pl warszawa.irc.pl lublin.irc.pl"
+ 
+ /*
+  * The left and right brace characters ('{', '}') are special characters in
+@@ -269,7 +269,7 @@
+  * settings.  Useful for paranoid users who dont want others to know
+  * that theyre running a buggy SunOS machine. >;-)
+  */
+-#undef UNAME_HACK
++#define UNAME_HACK
+ 
+ 
+ /* And here is the port number for default client connections.  */
+@@ -282,7 +282,7 @@
+  * hostname:portnum:password (with the portnum and password being
+  * optional).  This server list will supercede the DEFAULT_SERVER
+  */
+-#define SERVERS_FILE "ircII.servers"
++#define SERVERS_FILE "/etc/irc/ircII.servers"
+ 
+ 
+ /*
+@@ -338,7 +338,7 @@
+ #define	DEFAULT_BOLD_VIDEO 1
+ #define DEFAULT_CHANNEL_NAME_WIDTH 0
+ #define DEFAULT_CLOCK 1
+-#define DEFAULT_CLOCK_24HOUR 0
++#define DEFAULT_CLOCK_24HOUR 1
+ #define DEFAULT_CLOCK_FORMAT NULL
+ #define DEFAULT_CMDCHARS "/"
+ #define DEFAULT_COLOR 1
+@@ -384,7 +384,7 @@
+ #define DEFAULT_LASTLOG 256
+ #define DEFAULT_LASTLOG_LEVEL "ALL"
+ #define DEFAULT_LOG 0
+-#define DEFAULT_LOGFILE "irc.log"
++#define DEFAULT_LOGFILE ".irc.log"
+ #define DEFAULT_MAIL 2
+ #define DEFAULT_MAX_RECONNECTS 4
+ #define DEFAULT_META_STATES 40
+@@ -515,7 +515,7 @@
+ #undef EMACS_KEYBINDINGS	/* meta-key keybindings. */
+ #undef EPIC_DEBUG		/* force coredump on panic */
+ #define EXEC_COMMAND		/* allow /exec comamnd */
+-#undef HACKED_DCC_WARNING	/* warn if handshake != sender */
++#define HACKED_DCC_WARNING	/* warn if handshake != sender */
+ #undef HARD_UNFLASH		/* do a hard reset instead of soft on refresh */
+ #undef NO_BOTS			/* no bots allowed */
+ #undef NO_CHEATING		/* always do it the "right" way, no shortcuts */
+diff -Nru epic4pre2.508.orig/script/global epic4pre2.508/script/global
+--- epic4pre2.508.orig/script/global	Sat Apr 22 21:04:06 2000
++++ epic4pre2.508/script/global	Sat Apr 22 21:09:02 2000
+@@ -10,4 +10,4 @@
+ load 2.8script
+ # If you want this script, load it in your .ircrc
+ #load newaway
+-load local
++#load local
