@@ -13,6 +13,7 @@ Source1:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}pre2-help.tar.gz
 Source2:	epic.desktop
 Patch0:		epic-DESTDIR.patch
 Patch1:		%{name}-gethostname_is_in_libc_aka_no_libnsl.patch
+Patch2:		http://www.misiek.eu.org/ipv6/epic4-0.9.9-ipv6-20001003.patch.gz
 URL:		http://www.epicsol.org/
 BuildRequires:	autoconf
 BuildRequires:	ncurses-devel >= 5.0
@@ -35,6 +36,7 @@ program wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym
 %setup -q -a 1
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 autoconf
