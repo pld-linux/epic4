@@ -1,0 +1,12 @@
+diff -urN epic4-1.0.1.orig/source/ctcp.c epic4-1.0.1/source/ctcp.c
+--- epic4-1.0.1.orig/source/ctcp.c	2000-12-05 01:11:56.000000000 +0100
++++ epic4-1.0.1/source/ctcp.c	2004-05-12 12:51:18.539497392 +0200
+@@ -898,6 +898,8 @@
+ 
+ 	/* Make sure that the final \001 doesnt get truncated */
+ 	len = IRCD_BUFFER_SIZE - (12 + strlen(to));
++	if ((len = IRCD_BUFFER_SIZE - (12 + strlen(to))) < 0)
++		return;
+ 	putbuf2 = alloca(len);
+ 
+ 	if (format)
