@@ -7,7 +7,9 @@ Release:	0.1
 License:	distributable
 Group:		Applications/Communications
 Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-ALPHA/%{name}-%{version}.tar.bz2
+# Source0-md5:	b6ae7865e2281d7614c85bd75468c014
 Source1:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}pre2-help.tar.gz
+# Source1-md5:	176f77c1e372fc3ca184eca951cb86f5
 Source2:	epic.desktop
 Patch0:		epic4-1.1.6.DESTDIR.patch
 Patch1:		%{name}-gethostname_is_in_libc_aka_no_libnsl.patch
