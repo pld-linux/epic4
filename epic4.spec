@@ -3,7 +3,7 @@ Summary:	Another popular Unix IRC client
 Summary(pl):	Jeszcze jeden popularny Unixowy klient IRC
 Name:		epic
 Version:	4.2000
-Release:	1
+Release:	2
 Copyright:	Distributable
 Group:		Applications/Communications
 Group(pl):	Aplikacje/Komunikacja
