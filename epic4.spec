@@ -2,7 +2,7 @@
 Summary:	Another popular Unix IRC client
 Summary(pl):	Jeszcze jeden popularny Unixowy klient IRC
 Name:		epic4
-Version:	0.9.11
+Version:	0.9.12
 Release:	1
 License:	Distributable
 Group:		Applications/Communications
@@ -14,9 +14,7 @@ Source2:	epic.desktop
 Patch0:		epic-DESTDIR.patch
 Patch1:		%{name}-gethostname_is_in_libc_aka_no_libnsl.patch
 Patch2:		%{name}-config_file_path.patch
-Patch3:		http://www.t17.ds.pwr.wroc.pl/~misiek/ipv6/%{name}-%{version}-ipv6-20001118.patch.gz
-Patch4:		ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}-%{version}-patch1
-Patch5:         ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}-%{version}-patch2
+Patch3:		http://www.t17.ds.pwr.wroc.pl/~misiek/ipv6/%{name}-0.9.11-ipv6-20001118.patch.gz
 URL:		http://www.epicsol.org/
 BuildRequires:	autoconf
 BuildRequires:	ncurses-devel >= 5.0
@@ -41,9 +39,6 @@ program wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-cd source
-%patch4 -p0
-%patch5 -p0
 
 %build
 autoconf
@@ -68,7 +63,7 @@ gzip -9nf UPDATES KNOWNBUGS BUG_FORM doc/color.txt \
 find $RPM_BUILD_ROOT%{_datadir}/epic -type f -exec gzip -9nf {} \;
 
 %clean
-#rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
