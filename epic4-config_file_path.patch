@@ -1,0 +1,12 @@
+diff -Nru epic4-0.9.9/include/config.h epic4-0.9.9.new/include/config.h
+--- epic4-0.9.9/include/config.h	Fri Sep 22 17:59:49 2000
++++ epic4-0.9.9.new/include/config.h	Thu Oct 12 23:38:02 2000
+@@ -282,7 +282,7 @@
+  * hostname:portnum:password (with the portnum and password being
+  * optional).  This server list will supercede the DEFAULT_SERVER
+  */
+-#define SERVERS_FILE "ircII.servers"
++#define SERVERS_FILE "/etc/irc/ircII.servers"
+ 
+ 
+ /*
