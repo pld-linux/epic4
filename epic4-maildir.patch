@@ -1,0 +1,168 @@
+diff -urN epic4-1.0.1.orig/source/mail.c epic4-1.0.1/source/mail.c
+--- epic4-1.0.1.orig/source/mail.c	Tue Dec  5 01:11:57 2000
++++ epic4-1.0.1/source/mail.c	Sun Apr 14 12:28:16 2002
+@@ -5,7 +5,10 @@
+  * Written by Jeremy Nelson
+  * Copyright 1996 EPIC Software Labs
+  */
+-
++/*
++ * Maildirs are also supported.
++ * Written by Olgierd Pieczul <wojrus@pld.org.pl>
++ */
+ #include "irc.h"
+ #include "mail.h"
+ #include "lastlog.h"
+@@ -18,7 +21,8 @@
+ #endif
+ #include <sys/stat.h>
+ #include <utime.h>
+-
++#include <stdio.h>
++#include <dirent.h>
+ static	char	*mail_path = (char *) 0;
+ 
+ /*
+@@ -31,7 +35,6 @@
+ 	static	time_t	old_stat = 0;
+ 	struct stat	sb;
+ 	struct stat *	stat_buf;
+-
+ 	if (ptr)
+ 		stat_buf = (struct stat *)ptr;
+ 	else
+@@ -51,9 +54,14 @@
+ 		if (!(tmp_mail_path = getenv("MAIL")))
+ 			tmp_mail_path = path_search(username, mail_path_list);
+ 
+-		if (tmp_mail_path)
++		if (tmp_mail_path) {
+ 			mail_path = m_strdup(tmp_mail_path);
+-
++			if (stat(mail_path, stat_buf) == -1)
++				return 0;
++			/* Check whether mailbox is a directory (Maildir) and add "new/" suffix */
++			if ((stat_buf->st_mode & S_IFMT) == S_IFDIR) 
++				mail_path = m_2dup(mail_path, "/new/");
++		}
+ 		else
+ 			mail_path = m_strdup("<unknown>");
+ 	}
+@@ -70,22 +78,35 @@
+ 	{
+ 		old_stat = stat_buf->st_ctime;
+ 		if (stat_buf->st_size)
+-			return 2;
++				return 2; 
+ 	}
+ 
+ 	/*
+ 	 * If there is something in the mailbox
+ 	 */
+-	if (stat_buf->st_size)
+-		return 1;
+-
++	if (stat_buf->st_size) {
++		/* if maildir - how many files */
++		if ((stat_buf->st_mode & S_IFMT) == S_IFDIR) {
++			DIR *dir;
++		    int i = -2;
++		    if ((dir = opendir(mail_path)) == NULL)
++				return 0;
++			while (readdir(dir) != NULL)
++				i++;
++			closedir(dir);
++			if (i > 0)
++				return 1;
++			else
++				return 0;
++		}
++		return 1; 
++	}
+ 	/*
+ 	 * The mailbox is empty.
+ 	 */
+ 	return 0;
+ }
+ 
+-
+ /*
+  * check_mail:  report on status of inbox.
+  *
+@@ -142,8 +163,10 @@
+ 		case 3:
+ 		{
+ 			FILE *	mail;
++			DIR *	dir;
+ 			char 	buffer[255];
+ 			int 	count = 0;
++									
+ 		static 	int 	old_count = 0;
+ 		static	char 	ret_str[12];
+ 		struct utimbuf	ts;
+@@ -152,34 +175,43 @@
+ 			{
+ 			  case 2:
+ 			  {
+-			    if (!(mail = fopen(mail_path, "r")))
+-				return NULL;
+-
+-			    while (fgets(buffer, 254, mail))
+-				if (!strncmp("From ", buffer, 5))
+-					count++;
+-
+-			    fclose(mail);
+-
+-			    if (state == 3)
++			    /* if maildir */
++				if ((stat_buf.st_mode & S_IFMT) == S_IFDIR) {
++		            if ((dir = opendir(mail_path)) == NULL)
++			            return NULL;
++	        	    while (readdir(dir) != NULL)
++				    	count++;
++					closedir(dir);
++					count -= 2;
++				}
++			  	else 
++			  	{
++					if (!(mail = fopen(mail_path, "r")))
++						return NULL;
++	
++						while (fgets(buffer, 254, mail))
++							if (!strncmp("From ", buffer, 5))
++								count++;
++				    fclose(mail);
++				}
++				if (state == 3)
+ 			    {
+-				/* XXX Ew.  Evil. Gross. */
+-				ts.actime = stat_buf.st_atime;
+-				ts.modtime = stat_buf.st_mtime;
+-				utime(mail_path, &ts);	/* XXX Ick. Gross */
++					/* XXX Ew.  Evil. Gross. */
++					ts.actime = stat_buf.st_atime;
++					ts.modtime = stat_buf.st_mtime;
++					utime(mail_path, &ts);	/* XXX Ick. Gross */
+ 			    }
+-
+-			    if (count > old_count)
+-			    {
+-				if (do_hook(MAIL_LIST, "%d %d", 
+-					count - old_count, count))
+-				{
+-				    int lastlog_level = 
++				    if (count > old_count)
++			    	{
++						if (do_hook(MAIL_LIST, "%d %d", 
++						count - old_count, count))
++					{
++			    	int lastlog_level = 
+ 					set_lastlog_msg_level(LOG_CRAP);
+ 				    say("You have new email.");
+ 				    set_lastlog_msg_level(lastlog_level);
+ 				}
+-			    }
++		    }
+ 
+ 			    old_count = count;
+ 			    sprintf(ret_str, "%d", old_count);
