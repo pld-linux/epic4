@@ -1,0 +1,434 @@
+diff -Nru epic4-2000/Makefile.in epic4-2000.new/Makefile.in
+--- epic4-2000/Makefile.in	Mon Nov 22 19:05:03 1999
++++ epic4-2000.new/Makefile.in	Thu May 11 02:12:28 2000
+@@ -72,9 +72,9 @@
+ mandir	    = @mandir@
+ 
+ epic        = @epic@
+-epic_exe    = $(bindir)/$(epic)
+-wserv_exe   = $(libexecdir)/wserv
+-epicdir     = $(sharedir)/$(epic)
++epic_exe    = $(epic)
++wserv_exe   = wserv
++epicdir     = $(epic)
+ 
+ ############ You ought not change anything below this line ###################
+ 
+@@ -111,22 +111,11 @@
+ epic: source/Makefile Makefile
+ 	@cd source; $(MAKE2) all
+ 
+-EPIC 	  = $(epic_exe)-$(VERSION)
++EPIC 	  = $(epic_exe)
+ EPIC_OLD  = $(epic_exe).old
+ EPIC_LINK = $(epic_exe)
+ installepic installirc: epic installdirs test
+-	if ./my_test \( ! -f $(IP)$(EPIC) \) \
+-			-o source/epic -nt $(IP)$(EPIC); then \
+-		$(INSTALL_PROGRAM) source/epic $(IP)$(EPIC);	\
+-		if ./my_test -f $(IP)$(EPIC_OLD); then \
+-			$(RM) $(IP)$(EPIC_OLD); \
+-		fi; \
+-		if ./my_test -f $(IP)$(EPIC_LINK); then \
+-			$(MV) $(IP)$(EPIC_LINK) $(IP)$(EPIC_OLD); \
+-		fi; \
+-		$(RM) $(IP)$(EPIC_LINK); \
+-		ln -s $(IP)$(EPIC) $(IP)$(EPIC_LINK); \
+-	fi
++	$(INSTALL_PROGRAM) source/epic $(DESTDIR)$(bindir)
+ 
+ #
+ # wserv
+@@ -136,11 +125,8 @@
+ 
+ WSERV	 = $(wserv_exe)
+ installwserv: wserv installdirs test
+-	if ./my_test \( \! -f $(IP)$(WSERV) \) -o \
+-			source/wserv -nt $(IP)$(WSERV); then	\
+-		$(INSTALL_PROGRAM) source/wserv $(IP)$(WSERV);	\
+-	fi
+-
++	@srcdir@/mkinstalldirs $(DESTDIR)$(bindir)
++	$(INSTALL_PROGRAM) source/wserv $(DESTDIR)$(bindir)
+ 
+ #
+ # Script library
+@@ -149,7 +135,7 @@
+ installscript: installdirs test
+ 	-chmod -x @srcdir@/script/*
+ 	-@(								\
+-		if ./my_test -f $(IP)$(scriptdir)/local; then		\
++		if ./my_test -f $(DESTDIR)$(scriptdir)/local; then		\
+ 			if ./my_test -f script/local; then 		\
+ 				$(MV) @srcdir@/script/local 		\
+ 					@srcdir@/script/local.orig;	\
+@@ -158,7 +144,7 @@
+ 	)
+ 	for i in @srcdir@/script/*; \
+ 	do \
+-		target=$(IP)$(scriptdir)/`basename $$i`; \
++		target=$(DESTDIR)$(scriptdir)/`basename $$i`; \
+ 		if ./my_test -f $$target; then \
+ 			if ./my_test $$i -nt $$target; then \
+ 				$(INSTALL_DATA) $$i $$target; \
+@@ -170,7 +156,7 @@
+ 			fi; \
+ 		else \
+ 			$(INSTALL_DATA) $$i $$target; \
+-			if ./my_test -f $(IP)$(scriptdir)/gzip-scripts; then \
++			if ./my_test -f $(DESTDIR)$(scriptdir)/gzip-scripts; then \
+ 				gzip -f $$target; \
+ 			fi; \
+ 		fi; \
+@@ -178,16 +164,16 @@
+ 
+ helpdir   = $(epicdir)/help
+ installhelp: installdirs
+-	(cd @srcdir@/help; tar cf - .) | (cd $(IP)$(helpdir); tar xf -)
++	(cd @srcdir@/help; tar cf - .) | (cd $(DESTDIR)$(helpdir); tar xf -)
+ 
+ installman: installdirs
+-	$(INSTALL_DATA) @srcdir@/doc/epic.1 $(IP)/$(mandir)/man1/$(epic).1
++	$(INSTALL_DATA) @srcdir@/doc/epic.1 $(DESTDIR)$(mandir)/man1/$(epic).1
+ 
+ installdirs:
+ 	umask 022; \
+-	@srcdir@/mkinstalldirs $(IP)$(epicdir) $(IP)$(scriptdir) \
+-		$(IP)$(helpdir) $(IP)$(bindir) $(IP)$(libexecdir) \
+-		$(IP)$(mandir)/man1
++	@srcdir@/mkinstalldirs $(DESTDIR)$(epicdir) $(DESTDIR)$(scriptdir) \
++		$(DESTDIR)$(helpdir) $(DESTDIR)$(bindir) $(DESTDIR)$(libexecdir) \
++		$(DESTDIR)$(mandir)/man1
+ 
+ test.o: @srcdir@/test.c
+ 	$(CC) -c @srcdir@/test.c
+diff -Nru epic4-2000/bsdinstall epic4-2000.new/bsdinstall
+--- epic4-2000/bsdinstall	Fri May 10 21:47:38 1996
++++ epic4-2000.new/bsdinstall	Mon Apr 17 20:25:42 2000
+@@ -1,90 +1,251 @@
+-#! /bin/sh
++#!/bin/sh
+ #
+-#	@(#)install.sh	4.5	(Berkeley)	10/12/83
++# install - install a program, script, or datafile
++# This comes from X11R5 (mit/util/scripts/install.sh).
+ #
+-cmd=/bin/mv
+-strip=""
+-chmod="/bin/chmod 755"
+-chown=""
+-chgrp=""
+-while true ; do
+-	case $1 in
+-		-s )	strip="/bin/strip"
+-			shift
+-			;;
+-		-c )	cmd="/bin/cp -p"
+-			shift
+-			;;
+-		-m )	chmod="/bin/chmod $2"
+-			shift
+-			shift
+-			;;
+-		-o )	chown="/etc/chown -f $2"
+-			shift
+-			shift
+-			;;
+-		-g )	chgrp="/bin/chgrp -f $2"
+-			shift
+-			shift
+-			;;
+-		-d )	cmd="/bin/mkdir"
+-			shift
+-			;;
+-		* )	break
+-			;;
+-	esac
++# Copyright 1991 by the Massachusetts Institute of Technology
++#
++# Permission to use, copy, modify, distribute, and sell this software and its
++# documentation for any purpose is hereby granted without fee, provided that
++# the above copyright notice appear in all copies and that both that
++# copyright notice and this permission notice appear in supporting
++# documentation, and that the name of M.I.T. not be used in advertising or
++# publicity pertaining to distribution of the software without specific,
++# written prior permission.  M.I.T. makes no representations about the
++# suitability of this software for any purpose.  It is provided "as is"
++# without express or implied warranty.
++#
++# Calling this script install-sh is preferred over install.sh, to prevent
++# `make' implicit rules from creating a file called install from it
++# when there is no Makefile.
++#
++# This script is compatible with the BSD install script, but was written
++# from scratch.  It can only install one file at a time, a restriction
++# shared with many OS's install programs.
++
++
++# set DOITPROG to echo to test this script
++
++# Don't use :- since 4.3BSD and earlier shells don't like it.
++doit="${DOITPROG-}"
++
++
++# put in absolute paths if you don't have them in your path; or use env. vars.
++
++mvprog="${MVPROG-mv}"
++cpprog="${CPPROG-cp}"
++chmodprog="${CHMODPROG-chmod}"
++chownprog="${CHOWNPROG-chown}"
++chgrpprog="${CHGRPPROG-chgrp}"
++stripprog="${STRIPPROG-strip}"
++rmprog="${RMPROG-rm}"
++mkdirprog="${MKDIRPROG-mkdir}"
++
++transformbasename=""
++transform_arg=""
++instcmd="$mvprog"
++chmodcmd="$chmodprog 0755"
++chowncmd=""
++chgrpcmd=""
++stripcmd=""
++rmcmd="$rmprog -f"
++mvcmd="$mvprog"
++src=""
++dst=""
++dir_arg=""
++
++while [ x"$1" != x ]; do
++    case $1 in
++	-c) instcmd="$cpprog"
++	    shift
++	    continue;;
++
++	-d) dir_arg=true
++	    shift
++	    continue;;
++
++	-m) chmodcmd="$chmodprog $2"
++	    shift
++	    shift
++	    continue;;
++
++	-o) chowncmd="$chownprog $2"
++	    shift
++	    shift
++	    continue;;
++
++	-g) chgrpcmd="$chgrpprog $2"
++	    shift
++	    shift
++	    continue;;
++
++	-s) stripcmd="$stripprog"
++	    shift
++	    continue;;
++
++	-t=*) transformarg=`echo $1 | sed 's/-t=//'`
++	    shift
++	    continue;;
++
++	-b=*) transformbasename=`echo $1 | sed 's/-b=//'`
++	    shift
++	    continue;;
++
++	*)  if [ x"$src" = x ]
++	    then
++		src=$1
++	    else
++		# this colon is to work around a 386BSD /bin/sh bug
++		:
++		dst=$1
++	    fi
++	    shift
++	    continue;;
++    esac
+ done
+ 
+-if test ! ${2-""}; then
+-	echo "install: no destination specified"
++if [ x"$src" = x ]
++then
++	echo "install:	no input file specified"
+ 	exit 1
++else
++	true
+ fi
+-if test ${3-""}; then
+-	echo "install: too many files specified -> $*"
+-	exit 1
+-fi
+-if test $1 = $2 -o $2 = .; then
+-	echo "install: can't move $1 onto itself"
+-	exit 1
+-fi
+-case $cmd in
+-/bin/mkdir )
+-	file=$2/$1
+-	;;
+-* )
+-	if test '!' -f $1; then
+-		echo "install: can't open $1"
+-		exit 1
++
++if [ x"$dir_arg" != x ]; then
++	dst=$src
++	src=""
++	
++	if [ -d $dst ]; then
++		instcmd=:
++		chmodcmd=""
++	else
++		instcmd=mkdir
+ 	fi
+-	if test -d $2; then
+-		file=$2/$1
++else
++
++# Waiting for this to be detected by the "$instcmd $src $dsttmp" command
++# might cause directories to be created, which would be especially bad 
++# if $src (and thus $dsttmp) contains '*'.
++
++	if [ -f $src -o -d $src ]
++	then
++		true
+ 	else
+-		file=$2
++		echo "install:  $src does not exist"
++		exit 1
+ 	fi
+-	/bin/rm -f $file
+-	;;
+-esac
+-
+-case $cmd in
+-/bin/mkdir )
+-	if test ! -d "$file"; then
+-		$cmd $file
+-	fi
+-	;;
+-* )
+-	$cmd $1 $file
+-	if test -n "$strip"; then
+-		$strip $file
++	
++	if [ x"$dst" = x ]
++	then
++		echo "install:	no destination specified"
++		exit 1
++	else
++		true
+ 	fi
+-	;;
+-esac
+ 
+-if test -n "$chown"; then
+-	$chown $file
++# If destination is a directory, append the input filename; if your system
++# does not like double slashes in filenames, you may need to add some logic
++
++	if [ -d $dst ]
++	then
++		dst="$dst"/`basename $src`
++	else
++		true
++	fi
+ fi
+-if test -n "$chgrp"; then
+-	$chgrp $file
++
++## this sed command emulates the dirname command
++dstdir=`echo $dst | sed -e 's,[^/]*$,,;s,/$,,;s,^$,.,'`
++
++# Make sure that the destination directory exists.
++#  this part is taken from Noah Friedman's mkinstalldirs script
++
++# Skip lots of stat calls in the usual case.
++if [ ! -d "$dstdir" ]; then
++defaultIFS='	
++'
++IFS="${IFS-${defaultIFS}}"
++
++oIFS="${IFS}"
++# Some sh's can't handle IFS=/ for some reason.
++IFS='%'
++set - `echo ${dstdir} | sed -e 's@/@%@g' -e 's@^%@/@'`
++IFS="${oIFS}"
++
++pathcomp=''
++
++while [ $# -ne 0 ] ; do
++	pathcomp="${pathcomp}${1}"
++	shift
++
++	if [ ! -d "${pathcomp}" ] ;
++        then
++		$mkdirprog "${pathcomp}"
++	else
++		true
++	fi
++
++	pathcomp="${pathcomp}/"
++done
+ fi
+-$chmod $file
++
++if [ x"$dir_arg" != x ]
++then
++	$doit $instcmd $dst &&
++
++	if [ x"$chowncmd" != x ]; then $doit $chowncmd $dst; else true ; fi &&
++	if [ x"$chgrpcmd" != x ]; then $doit $chgrpcmd $dst; else true ; fi &&
++	if [ x"$stripcmd" != x ]; then $doit $stripcmd $dst; else true ; fi &&
++	if [ x"$chmodcmd" != x ]; then $doit $chmodcmd $dst; else true ; fi
++else
++
++# If we're going to rename the final executable, determine the name now.
++
++	if [ x"$transformarg" = x ] 
++	then
++		dstfile=`basename $dst`
++	else
++		dstfile=`basename $dst $transformbasename | 
++			sed $transformarg`$transformbasename
++	fi
++
++# don't allow the sed command to completely eliminate the filename
++
++	if [ x"$dstfile" = x ] 
++	then
++		dstfile=`basename $dst`
++	else
++		true
++	fi
++
++# Make a temp file name in the proper directory.
++
++	dsttmp=$dstdir/#inst.$$#
++
++# Move or copy the file name to the temp name
++
++	$doit $instcmd $src $dsttmp &&
++
++	trap "rm -f ${dsttmp}" 0 &&
++
++# and set any options; do chmod last to preserve setuid bits
++
++# If any of these fail, we abort the whole thing.  If we want to
++# ignore errors from any of these, just make sure not to ignore
++# errors from the above "$doit $instcmd $src $dsttmp" command.
++
++	if [ x"$chowncmd" != x ]; then $doit $chowncmd $dsttmp; else true;fi &&
++	if [ x"$chgrpcmd" != x ]; then $doit $chgrpcmd $dsttmp; else true;fi &&
++	if [ x"$stripcmd" != x ]; then $doit $stripcmd $dsttmp; else true;fi &&
++	if [ x"$chmodcmd" != x ]; then $doit $chmodcmd $dsttmp; else true;fi &&
++
++# Now rename the file to the real destination.
++
++	$doit $rmcmd -f $dstdir/$dstfile &&
++	$doit $mvcmd $dsttmp $dstdir/$dstfile 
++
++fi &&
++
+ 
+ exit 0
