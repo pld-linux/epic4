@@ -2,27 +2,26 @@
 Summary:	Another popular Unix IRC client
 Summary(pl):	Jeszcze jeden popularny Unixowy klient IRC
 Name:		epic4
-Version:	1.1.7
-Release:	0.2
+Version:	1.2.9
+Release:	1
 License:	distributable
 Group:		Applications/Communications
 Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-ALPHA/%{name}-%{version}.tar.bz2
-# Source0-md5:	b6ae7865e2281d7614c85bd75468c014
-Source1:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}pre2-help.tar.gz
-# Source1-md5:	176f77c1e372fc3ca184eca951cb86f5
+# Source0-md5:	a5d13d53f7e1b4ad3103e25e4bbac5be
+Source1:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}-help-20031208.tar.gz
+# Source1-md5:	eec2c9ea0d4adccab0ba473080e15799
 Source2:	epic.desktop
-Patch0:		epic4-1.1.6.DESTDIR.patch
+Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-gethostname_is_in_libc_aka_no_libnsl.patch
 Patch2:		%{name}-config_file_path.patch
 #Patch3:		http://www.t17.ds.pwr.wroc.pl/~misiek/ipv6/%{name}-%{version}-ipv6-20010418.patch.gz
 #Patch4:		%{name}-ac.patch
 Patch5:		http://linux.slupsk.net/patches/%{name}-maildir.patch
-Patch6:		%{name}-missing-terminating-char.patch
-Patch7:		%{name}-paste.patch
 URL:		http://www.epicsol.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	ncurses-devel >= 5.0
+BuildRequires:	perl-base
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	epic
 
@@ -45,9 +44,7 @@ program wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym
 %patch2 -p1
 #%patch3 -p1
 #%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
+#%patch5 -p1
 
 %build
 %{__aclocal}
