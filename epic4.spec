@@ -11,7 +11,9 @@ Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}-%{version}.tar.bz2
 Source1:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}pre2-help.tar.gz
 Source2:	epic.desktop
 Patch0:		epic-DESTDIR.patch
+Patch1:		epic4-gethostname_is_in_libc_aka_no_libnsl.patch
 URL:		http://www.epicsol.org/
+BuildRequires:	autoconf
 BuildRequires:	ncurses-devel >= 5.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -30,8 +32,10 @@ program wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym
 %prep 
 %setup -q -a 1
 %patch0 -p1
+%patch1 -p1
 
 %build
+autoconf
 LDFLAGS=-s; export LDFLAGS
 %configure
 %{__make}
