@@ -41,6 +41,7 @@ program wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym
 %patch3 -p1
 
 %build
+aclocal
 autoconf
 %configure
 %{__make}
