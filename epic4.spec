@@ -2,18 +2,18 @@
 Summary:	Another popular Unix IRC client
 Summary(pl):	Jeszcze jeden popularny Unixowy klient IRC
 Name:		epic4
-Version:	1.0.1
-Release:	5
+Version:	1.1.6
+Release:	0.1	
 License:	distributable
 Group:		Applications/Communications
-Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-PRODUCTION/%{name}-%{version}.tar.bz2
+Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-ALPHA/%{name}-%{version}.tar.bz2
 Source1:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}pre2-help.tar.gz
 Source2:	epic.desktop
-Patch0:		epic-DESTDIR.patch
+Patch0:		epic4-1.1.6.DESTDIR.patch
 Patch1:		%{name}-gethostname_is_in_libc_aka_no_libnsl.patch
 Patch2:		%{name}-config_file_path.patch
-Patch3:		http://www.t17.ds.pwr.wroc.pl/~misiek/ipv6/%{name}-%{version}-ipv6-20010418.patch.gz
-Patch4:		%{name}-ac.patch
+#Patch3:		http://www.t17.ds.pwr.wroc.pl/~misiek/ipv6/%{name}-%{version}-ipv6-20010418.patch.gz
+#Patch4:		%{name}-ac.patch
 Patch5:		http://team.pld.org.pl/~wojrus/%{name}-maildir.patch
 URL:		http://www.epicsol.org/
 BuildRequires:	autoconf
@@ -39,13 +39,13 @@ program wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
+#%patch3 -p1
+#%patch4 -p1
 %patch5 -p1
 %build
 aclocal
 %{__autoconf}
-%configure
+%configure --with-ipv6
 %{__make} epicdir=%{_datadir}/epic
 
 %install
