@@ -65,5 +65,9 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Jul 05 1999 PLD Team <pld-list@pld.org.pl>
 
 $Log: epic4.spec,v $
-Revision 1.1  1999-07-07 14:51:20  misiek
+Revision 1.2  1999-07-09 16:21:42  kloczek
+
+- added line on top spec file with cvs tags ($Revision:$ and $Date:$).
+
+Revision 1.1  1999/07/07 14:51:20  misiek
 irc client
