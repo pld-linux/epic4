@@ -6,5 +6,5 @@ Comment[pl]=Rozsz(E)rzony (P)rogramowalny kl(I)ent IR(C)-II
 Exec=epic
 Terminal=true
 Type=Application
-Categories=ConsoleOnly;Network;IRCClient;X-Communication;
+Categories=ConsoleOnly;Network;IRCClient;
 # vi: encoding=utf-8
