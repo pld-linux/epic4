@@ -6,12 +6,13 @@ Version:	0.9.9
 Release:	1
 Copyright:	Distributable
 Group:		Applications/Communications
+Group(de):	Applikationen/Kommunikation
 Group(pl):	Aplikacje/Komunikacja
 Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}-%{version}.tar.bz2
 Source1:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}pre2-help.tar.gz
 Source2:	epic.desktop
 Patch0:		epic-DESTDIR.patch
-Patch1:		epic4-gethostname_is_in_libc_aka_no_libnsl.patch
+Patch1:		%{name}-gethostname_is_in_libc_aka_no_libnsl.patch
 URL:		http://www.epicsol.org/
 BuildRequires:	autoconf
 BuildRequires:	ncurses-devel >= 5.0
@@ -36,7 +37,6 @@ program wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym
 
 %build
 autoconf
-LDFLAGS=-s; export LDFLAGS
 %configure
 %{__make}
 
@@ -51,7 +51,7 @@ cp -rp help $RPM_BUILD_ROOT%{_datadir}/epic
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_applnkdir}/Network/IRC
 
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man1/* UPDATES KNOWNBUGS BUG_FORM doc/color.txt \
+gzip -9nf UPDATES KNOWNBUGS BUG_FORM doc/color.txt \
 	doc/colors doc/TS4
 
 find $RPM_BUILD_ROOT%{_datadir}/epic -type f -exec gzip -9nf {} \;
