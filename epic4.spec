@@ -17,6 +17,7 @@ Patch2:		%{name}-config_file_path.patch
 Patch3:		http://www.t17.ds.pwr.wroc.pl/~misiek/ipv6/%{name}-%{version}-ipv6-20010418.patch.gz
 URL:		http://www.epicsol.org/
 BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	ncurses-devel >= 5.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	epic
