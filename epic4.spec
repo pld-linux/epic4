@@ -33,7 +33,7 @@ EPIC to rozsz(E)rzony (P)rogramowalny kl(I)ent IR(C)-II. Jest to
 program wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym
 ¶wiecie umo¿liwiaj±c porozumiewanie siê z innymi.
 
-%prep 
+%prep
 %setup -q -a 1
 %patch0 -p1
 %patch1 -p1
