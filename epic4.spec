@@ -2,7 +2,7 @@
 Summary:	Another popular Unix IRC client
 Summary(pl):	Jeszcze jeden popularny Unixowy klient IRC
 Name:		epic4
-Version:	0.9.12
+Version:	0.9.13
 Release:	1
 License:	Distributable
 Group:		Applications/Communications
@@ -15,6 +15,7 @@ Patch0:		epic-DESTDIR.patch
 Patch1:		%{name}-gethostname_is_in_libc_aka_no_libnsl.patch
 Patch2:		%{name}-config_file_path.patch
 Patch3:		http://www.t17.ds.pwr.wroc.pl/~misiek/ipv6/%{name}-0.9.11-ipv6-20001118.patch.gz
+Patch4:		ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}-%{version}-patch1
 URL:		http://www.epicsol.org/
 BuildRequires:	autoconf
 BuildRequires:	ncurses-devel >= 5.0
@@ -39,6 +40,8 @@ program wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+cd source
+%patch4 -p0
 
 %build
 autoconf
