@@ -16,7 +16,7 @@ Patch1:		%{name}-gethostname_is_in_libc_aka_no_libnsl.patch
 Patch2:		%{name}-config_file_path.patch
 #Patch3:		http://www.t17.ds.pwr.wroc.pl/~misiek/ipv6/%{name}-%{version}-ipv6-20010418.patch.gz
 #Patch4:		%{name}-ac.patch
-Patch5:		http://team.pld.org.pl/~wojrus/%{name}-maildir.patch
+Patch5:		http://linux.slupsk.net/patches/%{name}-maildir.patch
 Patch6:		%{name}-missing-terminating-char.patch
 URL:		http://www.epicsol.org/
 BuildRequires:	autoconf
