@@ -10,7 +10,7 @@ Group(pl):	Aplikacje/Komunikacja
 Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}-%{version}.tar.bz2
 Source1:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}pre2-help.tar.gz
 Source2:	epic.desktop
-Patch0:		epic4-2000-make.patch
+Patch0:		%{name}-2000-make.patch
 Patch1:		epic-DESTDIR.patch
 URL:		http://www.epicsol.org/
 BuildRequires:	ncurses-devel >= 5.0
@@ -29,11 +29,9 @@ program wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym
 ¶wiecie umo¿liwiaj±c porozumiewanie siê z innymi.
 
 %prep 
-%setup -q -n %{name}-%{version}
+%setup -q -a 1
 %patch0 -p1
 %patch1 -p1
-
-gzip -dc %{SOURCE1} | tar -xf -
 
 %build
 LDFLAGS=-s; export LDFLAGS
@@ -42,7 +40,7 @@ LDFLAGS=-s; export LDFLAGS
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d  $RPM_BUILD_ROOT{%{_mandir}/man1,%{_applnkdir}/Network/IRC}
+install -d  $RPM_BUILD_ROOT%{_applnkdir}/Network/IRC
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
