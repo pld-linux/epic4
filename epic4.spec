@@ -2,13 +2,13 @@
 Summary:	Another popular Unix IRC client
 Summary(pl):	Jeszcze jeden popularny Unixowy klient IRC
 Name:		epic
-Version:	4pre2.508
+Version:	4-2000
 Release:	1
 Copyright:	Distributable
 Group:		Applications/Communications
 Group(pl):	Aplikacje/Komunikacja
-Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-ALPHA/%{name}%{version}.tar.gz
-Source1:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-ALPHA/epic4pre2-help.tar.gz
+Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}%{version}.tar.gz
+Source1:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/epic4pre2-help.tar.gz
 Source2:	epic.wmconfig
 URL:		http://www.epicsol.org/
 Patch:		epic%{version}-make.patch
