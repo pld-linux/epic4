@@ -1,6 +1,6 @@
-diff -Nru epic4-2000/Makefile.in epic4-2000.new/Makefile.in
---- epic4-2000/Makefile.in	Mon Nov 22 19:05:03 1999
-+++ epic4-2000.new/Makefile.in	Thu May 11 02:12:28 2000
+diff -urN epic4-0.9.15.org/Makefile.in epic4-0.9.15/Makefile.in
+--- epic4-0.9.15.org/Makefile.in	Sun Jan  7 11:39:32 2001
++++ epic4-0.9.15/Makefile.in	Sun Jan  7 11:40:30 2001
 @@ -72,9 +72,9 @@
  mandir	    = @mandir@
  
@@ -53,16 +53,16 @@ diff -Nru epic4-2000/Makefile.in epic4-2000.new/Makefile.in
  
  #
  # Script library
-@@ -149,7 +135,7 @@
+@@ -148,7 +134,7 @@
+ scriptdir = $(epicdir)/script
  installscript: installdirs test
- 	-chmod -x @srcdir@/script/*
  	-@(								\
 -		if ./my_test -f $(IP)$(scriptdir)/local; then		\
 +		if ./my_test -f $(DESTDIR)$(scriptdir)/local; then		\
  			if ./my_test -f script/local; then 		\
  				$(MV) @srcdir@/script/local 		\
  					@srcdir@/script/local.orig;	\
-@@ -158,7 +144,7 @@
+@@ -157,7 +143,7 @@
  	)
  	for i in @srcdir@/script/*; \
  	do \
@@ -71,16 +71,16 @@ diff -Nru epic4-2000/Makefile.in epic4-2000.new/Makefile.in
  		if ./my_test -f $$target; then \
  			if ./my_test $$i -nt $$target; then \
  				$(INSTALL_DATA) $$i $$target; \
-@@ -170,7 +156,7 @@
- 			fi; \
- 		else \
+@@ -172,7 +158,7 @@
+ 		elif ./my_test -f $$i; then \
  			$(INSTALL_DATA) $$i $$target; \
+ 			chmod -x $$target; \
 -			if ./my_test -f $(IP)$(scriptdir)/gzip-scripts; then \
 +			if ./my_test -f $(DESTDIR)$(scriptdir)/gzip-scripts; then \
  				gzip -f $$target; \
  			fi; \
  		fi; \
-@@ -178,16 +164,16 @@
+@@ -180,16 +166,16 @@
  
  helpdir   = $(epicdir)/help
  installhelp: installdirs
@@ -102,9 +102,9 @@ diff -Nru epic4-2000/Makefile.in epic4-2000.new/Makefile.in
  
  test.o: @srcdir@/test.c
  	$(CC) -c @srcdir@/test.c
-diff -Nru epic4-2000/bsdinstall epic4-2000.new/bsdinstall
---- epic4-2000/bsdinstall	Fri May 10 21:47:38 1996
-+++ epic4-2000.new/bsdinstall	Mon Apr 17 20:25:42 2000
+diff -urN epic4-0.9.15.org/bsdinstall epic4-0.9.15/bsdinstall
+--- epic4-0.9.15.org/bsdinstall	Sun Jan  7 11:39:32 2001
++++ epic4-0.9.15/bsdinstall	Sun Jan  7 11:39:41 2001
 @@ -1,90 +1,251 @@
 -#! /bin/sh
 +#!/bin/sh
