@@ -6,12 +6,6 @@ Version:	1.0.1
 Release:	4
 License:	distributable
 Group:		Applications/Communications
-Group(de):	Applikationen/Kommunikation
-Group(es):	Aplicaciones/Comunicaciones
-Group(fr):	Applications/Transmissions
-Group(pl):	Aplikacje/Komunikacja
-Group(pt):	Aplicações/Comunicações
-Group(ru):	ğÒÉÌÏÖÅÎÉÑ/ó×ÑÚØ
 Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-PRODUCTION/%{name}-%{version}.tar.bz2
 Source1:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}pre2-help.tar.gz
 Source2:	epic.desktop
