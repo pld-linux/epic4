@@ -3,7 +3,7 @@ Summary:	Another popular Unix IRC client
 Summary(pl):	Jeszcze jeden popularny Unixowy klient IRC
 Name:		epic4
 Version:	1.2.9
-Release:	2
+Release:	3
 License:	distributable
 Group:		Applications/Communications
 Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-ALPHA/%{name}-%{version}.tar.bz2
@@ -22,6 +22,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	perl-base
+Conflicts:	lice <= 4.2.0-5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	epic
 
