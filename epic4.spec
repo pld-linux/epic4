@@ -42,14 +42,14 @@ make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d  $RPM_BUILD_ROOT{%{_mandir}/man1,%{_applnkdir}/Networking/IRC}
+install -d  $RPM_BUILD_ROOT{%{_mandir}/man1,%{_applnkdir}/Network/IRC}
 
 make install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 cp -rp help $RPM_BUILD_ROOT%{_datadir}/epic
 
-install %{SOURCE2} $RPM_BUILD_ROOT%{_applnkdir}/Networking/IRC
+install %{SOURCE2} $RPM_BUILD_ROOT%{_applnkdir}/Network/IRC
 
 gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man1/* UPDATES KNOWNBUGS BUG_FORM doc/color.txt \
 	doc/colors doc/TS4
@@ -65,4 +65,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/epic
 %{_mandir}/man1/epic.*
-%{_applnkdir}/Networking/IRC/*
+%{_applnkdir}/Network/IRC/*
