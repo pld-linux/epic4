@@ -14,7 +14,7 @@ Source2:	epic.desktop
 Patch0:		epic-DESTDIR.patch
 Patch1:		%{name}-gethostname_is_in_libc_aka_no_libnsl.patch
 Patch2:		%{name}-config_file_path.patch
-Patch3:		http://www.t17.ds.pwr.wroc.pl/~misiek/ipv6/%{name}-0.9.15-ipv6-20010104.patch.gz
+Patch3:		http://www.t17.ds.pwr.wroc.pl/~misiek/ipv6/%{name}-0.9.15-ipv6-20010108.patch.gz
 URL:		http://www.epicsol.org/
 BuildRequires:	autoconf
 BuildRequires:	ncurses-devel >= 5.0
