@@ -3,7 +3,7 @@ Summary:	Another popular Unix IRC client
 Summary(pl):	Jeszcze jeden popularny Unixowy klient IRC
 Name:		epic4
 Version:	0.9.15
-Release:	2
+Release:	3
 License:	Distributable
 Group:		Applications/Communications
 Group(de):	Applikationen/Kommunikation
@@ -47,7 +47,7 @@ autoconf
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d  $RPM_BUILD_ROOT%{_applnkdir}/Network/IRC
+install -d  $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -55,7 +55,7 @@ install -d  $RPM_BUILD_ROOT%{_applnkdir}/Network/IRC
 
 cp -rp help $RPM_BUILD_ROOT%{_datadir}/epic
 
-install %{SOURCE2} $RPM_BUILD_ROOT%{_applnkdir}/Network/IRC
+install %{SOURCE2} $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
 
 gzip -9nf UPDATES KNOWNBUGS BUG_FORM doc/color.txt \
 	doc/colors doc/TS4 doc/IP*
@@ -71,4 +71,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/epic
 %{_mandir}/man1/epic.*
-%{_applnkdir}/Network/IRC/*
+%{_applnkdir}/Network/Communications/*
