@@ -3,7 +3,7 @@ Summary:	Another popular Unix IRC client
 Summary(pl):	Jeszcze jeden popularny Unixowy klient IRC
 Name:		epic4
 Version:	1.2.9
-Release:	1
+Release:	2
 License:	distributable
 Group:		Applications/Communications
 Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-ALPHA/%{name}-%{version}.tar.bz2
@@ -55,7 +55,7 @@ program wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d  $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
+install -d  $RPM_BUILD_ROOT%{_desktopdir}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -63,7 +63,7 @@ install -d  $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
 
 cp -rp help $RPM_BUILD_ROOT%{_datadir}/epic
 
-install %{SOURCE2} $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
+install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -74,4 +74,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/epic
 %{_mandir}/man1/epic.*
-%{_applnkdir}/Network/Communications/*
+%{_desktopdir}/*
