@@ -42,10 +42,12 @@ program wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym
 #%patch3 -p1
 #%patch4 -p1
 %patch5 -p1
+
 %build
-aclocal
+%{__aclocal}
 %{__autoconf}
-%configure --with-ipv6
+%configure \
+	--with-ipv6
 %{__make} epicdir=%{_datadir}/epic
 
 %install
