@@ -60,15 +60,12 @@ cp -rp help $RPM_BUILD_ROOT%{_datadir}/epic
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
 
-gzip -9nf UPDATES KNOWNBUGS BUG_FORM doc/color.txt \
-	doc/colors doc/TS4 doc/EPIC*
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz doc/*.gz
+%doc UPDATES KNOWNBUGS BUG_FORM doc/color.txt doc/colors doc/TS4 doc/EPIC*
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/epic
 %{_mandir}/man1/epic.*
