@@ -2,7 +2,7 @@
 Summary:	Another popular Unix IRC client
 Summary(pl):	Jeszcze jeden popularny Unixowy klient IRC
 Name:		epic
-Version:	4pre2.504
+Version:	4pre2.508
 Release:	1
 Copyright:	Distributable
 Group:		Applications/Communications
@@ -11,7 +11,7 @@ Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-ALPHA/%{name}%{version}.tar.gz
 Source1:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-ALPHA/epic4pre2-help.tar.gz
 Source2:	epic.wmconfig
 URL:		http://www.epicsol.org/
-Patch:		epic4pre2.504-make.patch
+Patch:		epic%{version}-make.patch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -25,7 +25,7 @@ to program wykorzystywany do ³±czenia siê z serwerami IRC
 na ca³ym ¶wiecie umo¿liwiaj±c porozumiewanie siê z innymi.
 
 %prep 
-%setup -q -n ircii-EPIC%{version}
+%setup -q -n epic%{version}
 %patch0 -p1
 gzip -dc %{SOURCE1} | tar -xf -
 
