@@ -12,7 +12,7 @@ Source1:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-ALPHA/epic4pre2-help.tar.gz
 Source2:	epic.wmconfig
 URL:		http://www.epicsol.org/
 Patch:		epic4pre2.504-make.patch
-Buildroot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 EPIC is the (E)nhanced (P)rogrammable (I)RC-II (C)lient.  It
