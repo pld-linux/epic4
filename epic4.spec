@@ -17,6 +17,7 @@ Patch2:		%{name}-config_file_path.patch
 #Patch3:		http://www.t17.ds.pwr.wroc.pl/~misiek/ipv6/%{name}-%{version}-ipv6-20010418.patch.gz
 #Patch4:		%{name}-ac.patch
 Patch5:		http://team.pld.org.pl/~wojrus/%{name}-maildir.patch
+Patch6:		%{name}-missing-terminating-char.patch
 URL:		http://www.epicsol.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -44,6 +45,7 @@ program wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym
 #%patch3 -p1
 #%patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 %{__aclocal}
