@@ -2,8 +2,8 @@
 Summary:	Another popular Unix IRC client
 Summary(pl):	Jeszcze jeden popularny Unixowy klient IRC
 Name:		epic4
-Version:	0.9.9
-Release:	2
+Version:	0.9.11
+Release:	1
 License:	Distributable
 Group:		Applications/Communications
 Group(de):	Applikationen/Kommunikation
@@ -13,8 +13,10 @@ Source1:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}pre2-help.tar.gz
 Source2:	epic.desktop
 Patch0:		epic-DESTDIR.patch
 Patch1:		%{name}-gethostname_is_in_libc_aka_no_libnsl.patch
-Patch2:		http://www.misiek.eu.org/ipv6/epic4-0.9.9-ipv6-20001003.patch.gz
-Patch3:		%{name}-config_file_path.patch
+Patch2:		%{name}-config_file_path.patch
+Patch3:		http://www.t17.ds.pwr.wroc.pl/~misiek/ipv6/%{name}-%{version}-ipv6-20001118.patch.gz
+Patch4:		ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}-%{version}-patch1
+Patch5:         ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}-%{version}-patch2
 URL:		http://www.epicsol.org/
 BuildRequires:	autoconf
 BuildRequires:	ncurses-devel >= 5.0
@@ -39,6 +41,9 @@ program wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+cd source
+%patch4 -p0
+%patch5 -p0
 
 %build
 autoconf
@@ -50,23 +55,24 @@ rm -rf $RPM_BUILD_ROOT
 install -d  $RPM_BUILD_ROOT%{_applnkdir}/Network/IRC
 
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
+	DESTDIR=$RPM_BUILD_ROOT \
+	epicdir=%{_datadir}/epic
 
 cp -rp help $RPM_BUILD_ROOT%{_datadir}/epic
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_applnkdir}/Network/IRC
 
 gzip -9nf UPDATES KNOWNBUGS BUG_FORM doc/color.txt \
-	doc/colors doc/TS4
+	doc/colors doc/TS4 doc/IP*
 
 find $RPM_BUILD_ROOT%{_datadir}/epic -type f -exec gzip -9nf {} \;
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+#rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc {UPDATES,KNOWNBUGS,BUG_FORM,doc/color.txt,doc/colors,doc/TS4}.gz
+%doc *.gz doc/*.gz
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/epic
 %{_mandir}/man1/epic.*
