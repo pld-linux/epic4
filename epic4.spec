@@ -19,14 +19,14 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_libexecdir	%{_bindir}
 
 %description
-EPIC is the (E)nhanced (P)rogrammable (I)RC-II (C)lient. It is a program
-used to connect to IRC servers around the globe so that the user can
-"chat" with others.
+EPIC is the (E)nhanced (P)rogrammable (I)RC-II (C)lient. It is a
+program used to connect to IRC servers around the globe so that the
+user can "chat" with others.
 
 %description -l pl
-EPIC to rozsz(E)rzony (P)rogramowalny kl(I)ent IR(C)-II. Jest to program
-wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym ¶wiecie
-umo¿liwiaj±c porozumiewanie siê z innymi.
+EPIC to rozsz(E)rzony (P)rogramowalny kl(I)ent IR(C)-II. Jest to
+program wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym
+¶wiecie umo¿liwiaj±c porozumiewanie siê z innymi.
 
 %prep 
 %setup -q -n epic4-2000
