@@ -44,7 +44,7 @@ program wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym
 %patch5 -p1
 %build
 aclocal
-autoconf
+%{__autoconf}
 %configure
 %{__make} epicdir=%{_datadir}/epic
 
