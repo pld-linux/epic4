@@ -1,6 +1,6 @@
 %define help_version 4pre2.003
 Summary:	Another popular Unix IRC client
-Summary(pl):	Jeszcze jeden popularny Uniksowy klient IRC
+Summary(pl):	Jeszcze jeden popularny uniksowy klient IRC
 Name:		epic4
 Version:	1.2.9
 Release:	3
