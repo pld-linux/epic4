@@ -1,0 +1,15 @@
+diff -Nru epic4-0.9.7/configure.in epic4-0.9.7.new/configure.in
+--- epic4-0.9.7/configure.in	Fri Jul  7 04:32:24 2000
++++ epic4-0.9.7.new/configure.in	Mon Aug 21 00:15:28 2000
+@@ -93,9 +93,8 @@
+ 	AC_CHECK_LIB(inet, socket, libnsl=1; LIBS="$LIBS -linet -lnsl_s",)
+ fi
+ 
+-if test -z "$libnsl"; then
+-	AC_CHECK_LIB(nsl, gethostname, LIBS="$LIBS -lnsl",)
+-fi
++AC_CHECK_FUNC(gethostname, ,
++	AC_CHECK_LIB(nsl, gethostname, LIBS="$LIBS -lnsl",) )
+ 
+ AC_CHECK_LIB(sun, getpwnam, LIBS="$LIBS -lsun",)
+ AC_CHECK_LIB(dgc, inet_addr, LIBS="$LIBS -ldgc",)
