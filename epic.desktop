@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=EPIC
+Comment=Internet Relay Chat Client
+Exec=epic
+Terminal=1
+Type=Application
