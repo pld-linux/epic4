@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=EPIC
 Comment=(E)nhanced (P)rogrammable (I)RC-II (C)lient
-Comment[pl]=rozsz(E)rzony (P)rogramowalny kl(I)ent IR(C)-II
+Comment[pl]=Rozsz(E)rzony (P)rogramowalny kl(I)ent IR(C)-II
 Exec=epic
 Terminal=1
 Type=Application
