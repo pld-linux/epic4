@@ -17,6 +17,7 @@ URL:		http://www.epicsol.org/
 BuildRequires:	autoconf
 BuildRequires:	ncurses-devel >= 5.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Obsoletes:	epic
 
 %define		_libexecdir	%{_bindir}
 
