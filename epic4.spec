@@ -7,48 +7,54 @@ Release:	1
 Copyright:	Distributable
 Group:		Applications/Communications
 Group(pl):	Aplikacje/Komunikacja
-Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/epic4-2000.tar.bz2
-Source1:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/epic4pre2-help.tar.gz
-Source2:	epic.wmconfig
+Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}4-2000.tar.bz2
+Source1:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-BETA/%{name}4pre2-help.tar.gz
+Source2:	epic.desktop
+Patch0:		epic4-2000-make.patch
+Patch1:		epic-DESTDIR.patch
 URL:		http://www.epicsol.org/
-Patch:		epic4-2000-make.patch
+BuildRequires:	ncurses-devel >= 5.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		_libexecdir	%{_bindir}
+
 %description
-EPIC is the (E)nhanced (P)rogrammable (I)RC-II (C)lient.  It
-is a program used to connect to IRC servers around the globe
-so that the user can ``chat'' with others.
+EPIC is the (E)nhanced (P)rogrammable (I)RC-II (C)lient. It is a program
+used to connect to IRC servers around the globe so that the user can
+"chat" with others.
 
 %description -l pl
-EPIC to rozsz(E)rzony (P)rogramowalny kl(I)ent IR(C)-II. Jest
-to program wykorzystywany do ³±czenia siê z serwerami IRC
-na ca³ym ¶wiecie umo¿liwiaj±c porozumiewanie siê z innymi.
+EPIC to rozsz(E)rzony (P)rogramowalny kl(I)ent IR(C)-II. Jest to program
+wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym ¶wiecie
+umo¿liwiaj±c porozumiewanie siê z innymi.
 
 %prep 
 %setup -q -n epic4-2000
 %patch0 -p1
+%patch1 -p1
+
 gzip -dc %{SOURCE1} | tar -xf -
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" LDFLAGS=-s \
-./configure --prefix=%{_prefix} \
-	    --libexecdir=%{_bindir} \
-	    --mandir=%{_mandir}
+LDFLAGS=-s; export LDFLAGS
+%configure
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d  $RPM_BUILD_ROOT{%{_mandir}/man1,%{_applnkdir}/Networking/IRC}
 
-make prefix=$RPM_BUILD_ROOT%{_prefix} mandir=$RPM_BUILD_ROOT%{_mandir} \
-     libexecdir=$RPM_BUILD_ROOT%{_bindir} install
+make install \
+	DESTDIR=$RPM_BUILD_ROOT
+
 cp -rp help $RPM_BUILD_ROOT%{_datadir}/epic
-install -d  $RPM_BUILD_ROOT%{_mandir}/man1
-install -d  $RPM_BUILD_ROOT/etc/X11/wmconfig
-install     $RPM_SOURCE_DIR/epic.wmconfig    $RPM_BUILD_ROOT/etc/X11/wmconfig/epic
 
-gzip -9nf   $RPM_BUILD_ROOT%{_mandir}/man1/* UPDATES KNOWNBUGS BUG_FORM doc/color.txt \
-            doc/colors doc/TS4
-find       $RPM_BUILD_ROOT%{_datadir}/epic -type f -exec gzip -9nf {} \;
+install %{SOURCE2} $RPM_BUILD_ROOT%{_applnkdir}/Networking/IRC
+
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man1/* UPDATES KNOWNBUGS BUG_FORM doc/color.txt \
+	doc/colors doc/TS4
+
+find $RPM_BUILD_ROOT%{_datadir}/epic -type f -exec gzip -9nf {} \;
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -59,4 +65,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/epic
 %{_mandir}/man1/epic.*
-/etc/X11/wmconfig/epic
+%{_applnkdir}/Networking/IRC/*
