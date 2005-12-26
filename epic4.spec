@@ -1,4 +1,3 @@
-%define help_version 4pre2.003
 Summary:	Another popular Unix IRC client
 Summary(pl):	Jeszcze jeden popularny uniksowy klient IRC
 Name:		epic4
@@ -26,8 +25,6 @@ Requires:	perl(DynaLoader) = %(%{__perl} -MDynaLoader -e 'print DynaLoader->VERS
 Conflicts:	lice <= 4.2.0-5
 Obsoletes:	epic
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_libexecdir	%{_bindir}
 
 %description
 EPIC is the (E)nhanced (P)rogrammable (I)RC-II (C)lient. It is a
