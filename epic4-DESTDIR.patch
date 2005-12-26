@@ -363,7 +363,7 @@ diff -urN epic4-1.2.9.org/Makefile.in epic4-1.2.9/Makefile.in
 -			$(MV) $(IP)$(EPIC_LINK) $(IP)$(EPIC_OLD); \
 -		fi; \
 -		$(RM) $(IP)$(EPIC_LINK); \
--		ln -s $(IP)$(EPIC) $(IP)$(EPIC_LINK); \
+-		ln -s $(epic)-$(VERSION) $(IP)$(EPIC_LINK); \
 -	fi
 -
 +	$(INSTALL_PROGRAM) source/epic $(DESTDIR)$(bindir)
