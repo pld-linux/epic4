@@ -73,4 +73,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/epic
 %{_mandir}/man1/epic.*
-%{_desktopdir}/*
+%{_desktopdir}/*.desktop
