@@ -1,5 +1,5 @@
 Summary:	Another popular Unix IRC client
-Summary(pl.UTF-8):   Jeszcze jeden popularny uniksowy klient IRC
+Summary(pl.UTF-8):	Jeszcze jeden popularny uniksowy klient IRC
 Name:		epic4
 Version:	2.2
 Release:	1
