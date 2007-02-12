@@ -1,5 +1,5 @@
 Summary:	Another popular Unix IRC client
-Summary(pl):	Jeszcze jeden popularny uniksowy klient IRC
+Summary(pl.UTF-8):   Jeszcze jeden popularny uniksowy klient IRC
 Name:		epic4
 Version:	2.2
 Release:	1
@@ -31,10 +31,10 @@ EPIC is the (E)nhanced (P)rogrammable (I)RC-II (C)lient. It is a
 program used to connect to IRC servers around the globe so that the
 user can "chat" with others.
 
-%description -l pl
+%description -l pl.UTF-8
 EPIC to rozsz(E)rzony (P)rogramowalny kl(I)ent IR(C)-II. Jest to
-program wykorzystywany do ³±czenia siê z serwerami IRC na ca³ym
-¶wiecie umo¿liwiaj±c porozumiewanie siê z innymi.
+program wykorzystywany do Å‚Ä…czenia siÄ™ z serwerami IRC na caÅ‚ym
+Å›wiecie umoÅ¼liwiajÄ…c porozumiewanie siÄ™ z innymi.
 
 %prep
 %setup -q -a 1
