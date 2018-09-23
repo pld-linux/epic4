@@ -328,113 +328,15 @@ diff -urN epic4-1.2.9.org/bsdinstall epic4-1.2.9/bsdinstall
 +
  
  exit 0
-diff -urN epic4-1.2.9.org/Makefile.in epic4-1.2.9/Makefile.in
---- epic4-1.2.9.org/Makefile.in	2004-06-13 22:24:06.120067888 +0200
-+++ epic4-1.2.9/Makefile.in	2004-06-13 22:25:43.489265520 +0200
-@@ -72,9 +72,9 @@
- mandir	    = @mandir@
+
+--- epic4-2.10.6/Makefile.in~	2016-01-30 17:32:30.000000000 +0100
++++ epic4-2.10.6/Makefile.in	2018-09-23 12:42:48.273897491 +0200
+@@ -73,7 +73,7 @@ mandir	    = @mandir@
  
  epic        = @epic@
--epic_exe    = $(bindir)/$(epic)
+ epic_exe    = $(bindir)/$(epic)
 -wserv_exe   = $(libexecdir)/wserv4
--epicdir     = $(sharedir)/$(epic)
-+epic_exe    = $(epic)
-+wserv_exe   = wserv4
-+epicdir     = $(epic)
++wserv_exe   = $(libexecdir)/$(epic)/wserv4
+ epicdir     = $(sharedir)/$(epic)
  
  ############ You ought not change anything below this line ###################
- 
-@@ -111,23 +111,12 @@
- epic: source/Makefile Makefile
- 	@cd source; $(MAKE2) all
- 
--EPIC 	  = $(epic_exe)-$(VERSION)
-+EPIC 	  = $(epic_exe)
- EPIC_OLD  = $(epic_exe).old
- EPIC_LINK = $(epic_exe)
- installepic installirc: epic installdirs test
--	if ./my_test \( ! -f $(IP)$(EPIC) \) \
--			-o source/epic -nt $(IP)$(EPIC); then \
--		$(INSTALL_PROGRAM) source/epic $(IP)$(EPIC);	\
--		if ./my_test -f $(IP)$(EPIC_OLD); then \
--			$(RM) $(IP)$(EPIC_OLD); \
--		fi; \
--		if ./my_test -f $(IP)$(EPIC_LINK); then \
--			$(MV) $(IP)$(EPIC_LINK) $(IP)$(EPIC_OLD); \
--		fi; \
--		$(RM) $(IP)$(EPIC_LINK); \
--		ln -s $(epic)-$(VERSION) $(IP)$(EPIC_LINK); \
--	fi
--
-+	$(INSTALL_PROGRAM) source/epic $(DESTDIR)$(bindir)
-+	
- #
- # wserv
- #
-@@ -136,19 +125,16 @@
- 
- WSERV	 = $(wserv_exe)
- installwserv: wserv4 installdirs test
--	if ./my_test \( \! -f $(IP)$(WSERV) \) -o \
--			source/wserv4 -nt $(IP)$(WSERV); then	\
--		$(INSTALL_PROGRAM) source/wserv4 $(IP)$(WSERV);	\
--	fi
--
--
-+	@srcdir@/mkinstalldirs $(DESTDIR)$(bindir)
-+	$(INSTALL_PROGRAM) source/wserv4 $(DESTDIR)$(bindir)
-+	
- #
- # Script library
- #
- scriptdir = $(epicdir)/script
- installscript: installdirs test
- 	-@(								\
--		if ./my_test -f $(IP)$(scriptdir)/local; then		\
-+		if ./my_test -f $(DESTDIR)$(scriptdir)/local; then	\
- 			if ./my_test -f script/local; then 		\
- 				$(MV) @srcdir@/script/local 		\
- 					@srcdir@/script/local.orig;	\
-@@ -161,7 +147,7 @@
- 			if ./my_test -x $$i; then \
- 				chmod a-x $$i; \
- 			fi; \
--			target=$(IP)$(scriptdir)/`basename $$i`; \
-+			target=$(DESTDIR)$(scriptdir)/`basename $$i`; \
- 			if ./my_test -f $$target; then \
- 				if ./my_test $$i -nt $$target; then \
- 					$(INSTALL_DATA) $$i $$target; \
-@@ -173,7 +159,7 @@
- 				fi; \
- 			else \
- 				$(INSTALL_DATA) $$i $$target; \
--				if ./my_test -f $(IP)$(scriptdir)/gzip-scripts; then \
-+				if ./my_test -f $(DESTDIR)$(scriptdir)/gzip-scripts; then \
- 					gzip -f $$target; \
- 				fi; \
- 			fi; \
-@@ -183,19 +169,19 @@
- helpdir   = $(epicdir)/help
- installhelp: installdirs
- 	if ./my_test -d help ; then \
--		(cd @srcdir@/help; tar cf - .) | (cd $(IP)$(helpdir); tar xf -)  ; \
-+		(cd @srcdir@/help; tar cf - .) | (cd $(DESTDIR)$(helpdir); tar xf -)  ; \
- 	else \
- 		echo No help files to install. ; \
- 	fi
- 
- installman: installdirs
--	$(INSTALL_DATA) @srcdir@/doc/epic.1 $(IP)/$(mandir)/man1/$(epic).1
-+	$(INSTALL_DATA) @srcdir@/doc/epic.1 $(DESTDIR)/$(mandir)/man1/$(epic).1
- 
- installdirs:
- 	umask 022; \
--	@srcdir@/mkinstalldirs $(IP)$(epicdir) $(IP)$(scriptdir) \
--		$(IP)$(helpdir) $(IP)$(bindir) $(IP)$(libexecdir) \
--		$(IP)$(mandir)/man1
-+	@srcdir@/mkinstalldirs $(DESTDIR)$(epicdir) $(DESTDIR)$(scriptdir) \
-+		$(DESTDIR)$(helpdir) $(DESTDIR)$(bindir) $(DESTDIR)$(libexecdir) \
-+		$(DESTDIR)$(mandir)/man1
- 
- test.o: @srcdir@/test.c
- 	$(CC) -c @srcdir@/test.c

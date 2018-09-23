@@ -1,12 +1,12 @@
 Summary:	Another popular Unix IRC client
 Summary(pl.UTF-8):	Jeszcze jeden popularny uniksowy klient IRC
 Name:		epic4
-Version:	2.2
-Release:	11
+Version:	2.10.6
+Release:	1
 License:	distributable
 Group:		Applications/Communications
-Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-PRODUCTION/%{name}-%{version}.tar.bz2
-# Source0-md5:	e4d5d799b43f3c7882e8e7616099d4fc
+Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-PRODUCTION/%{name}-%{version}.tar.xz
+# Source0-md5:	1934d9dea697ac7d15cb085df96e8c2f
 Source1:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-PRODUCTION/%{name}-help-20050315.tar.gz
 # Source1-md5:	9888d1af465ca72bf9a02487264071a5
 Source2:	epic.desktop
@@ -69,7 +69,10 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc UPDATES KNOWNBUGS BUG_FORM doc/color.txt doc/colors doc/TS4 doc/EPIC*
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/epic
+%attr(755,root,root) %{_bindir}/epic-EPIC4*
+%dir %{_libexecdir}/epic
+%attr(755,root,root) %{_libexecdir}/epic/wserv4
 %{_datadir}/epic
 %{_mandir}/man1/epic.*
 %{_desktopdir}/*.desktop
