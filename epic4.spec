@@ -2,7 +2,7 @@ Summary:	Another popular Unix IRC client
 Summary(pl.UTF-8):	Jeszcze jeden popularny uniksowy klient IRC
 Name:		epic4
 Version:	2.10.6
-Release:	3
+Release:	4
 License:	distributable
 Group:		Applications/Communications
 Source0:	ftp://ftp.epicsol.org/pub/ircii/EPIC4-PRODUCTION/%{name}-%{version}.tar.xz
@@ -44,7 +44,8 @@ program wykorzystywany do łączenia się z serwerami IRC na całym
 %{__aclocal}
 %{__autoconf}
 %configure \
-	--with-ipv6
+	--with-ipv6 \
+	--with-perl
 %{__make} epicdir=%{_datadir}/epic
 
 %install
