@@ -14,6 +14,7 @@ Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-gethostname_is_in_libc_aka_no_libnsl.patch
 Patch2:		%{name}-config_file_path.patch
 Patch3:		gcc10.patch
+Patch4:		perl-config.patch
 URL:		http://www.epicsol.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -39,6 +40,7 @@ program wykorzystywany do łączenia się z serwerami IRC na całym
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %{__aclocal}
